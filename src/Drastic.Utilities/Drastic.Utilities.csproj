@@ -4,6 +4,7 @@
 		<RootNamespace>Drastic</RootNamespace>
 		<Description>Drastic.Utilities is a collection of helper libraries and other various utilities.</Description>
 		<TargetFrameworks>net7.0;net7.0-macos;net7.0-ios;net7.0-maccatalyst;net7.0-tvos;net7.0-windows10.0.19041.0</TargetFrameworks>
+		<IsPackable>true</IsPackable>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0-preview1" />
