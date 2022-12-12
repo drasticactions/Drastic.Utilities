@@ -1,6 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 	<Import Project="../MultiTargeting.targets" />
 	<PropertyGroup>
+		<RootNamespace>Drastic</RootNamespace>
+		<Description>Drastic.Utilities is a collection of helper libraries and other various utilities.</Description>
 		<TargetFrameworks>net7.0;net7.0-macos;net7.0-ios;net7.0-maccatalyst;net7.0-tvos;net7.0-windows10.0.19041.0</TargetFrameworks>
 	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0-preview1" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+	</ItemGroup>
+	<ItemGroup Condition="$(TargetFramework.Contains('-windows')) == true ">
+		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.1.647-beta">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 </Project>
