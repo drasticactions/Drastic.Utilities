@@ -66,17 +66,17 @@ namespace Drastic.ViewModels
         /// <summary>
         /// Gets the Error Handler.
         /// </summary>
-        internal IErrorHandlerService ErrorHandler { get; }
+        public IErrorHandlerService ErrorHandler { get; }
 
         /// <summary>
         /// Gets the <see cref="IServiceProvider"/>.
         /// </summary>
-        internal IServiceProvider Services { get; }
+        public IServiceProvider Services { get; }
 
         /// <summary>
         /// Gets the Dispatcher.
         /// </summary>
-        internal IAppDispatcher Dispatcher { get; }
+        public IAppDispatcher Dispatcher { get; }
 
         /// <summary>
         /// Sets title for page.
