@@ -2,7 +2,7 @@
 // Copyright (c) Drastic Actions. All rights reserved.
 // </copyright>
 
-using Windows.System;
+using Microsoft.UI.Dispatching;
 
 namespace Drastic.Services
 {
