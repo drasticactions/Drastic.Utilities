@@ -115,23 +115,50 @@ namespace Drastic.ViewModels
         /// </summary>
         /// <param name="action">Task to run.</param>
         /// <param name="isLoadingText">Optional Is Loading text.</param>
+        /// <param name="cancellationToken">Optional cancellation token.</param>
         /// <returns>Task.</returns>
-        public async Task PerformBusyAsyncTask(Func<Task> action, string isLoadingText = "")
+        public async Task PerformBusyAsyncTask(Func<Task> action, string isLoadingText = "", CancellationToken? cancellationToken = default)
         {
             this.IsLoadingText = isLoadingText;
             this.IsBusy = true;
 
             try
             {
-                await action.Invoke();
+                // Start the action task
+                var actionTask = action.Invoke();
+                var token = cancellationToken ?? CancellationToken.None;
+
+                // Create a task that completes when the cancellation token is triggered
+                var cancellationTask = Task.Delay(Timeout.Infinite, token);
+
+                // Await the first task to complete: either the action task or the cancellation task
+                var completedTask = await Task.WhenAny(actionTask, cancellationTask);
+
+                if (completedTask == cancellationTask)
+                {
+                    // If the cancellation task completed first, throw an OperationCanceledException
+                    throw new OperationCanceledException(token);
+                }
+
+                // Await the action task to propagate any exceptions
+                await actionTask;
+            }
+            catch (OperationCanceledException)
+            {
+                // Handle the cancellation specifically if needed
+                // Optionally log or notify about the cancellation
             }
             catch (Exception ex)
             {
+                // Handle other exceptions
                 this.ErrorHandler.HandleError(ex);
             }
-
-            this.IsBusy = false;
-            this.IsLoadingText = string.Empty;
+            finally
+            {
+                // Ensure that these properties are reset even if an exception occurs
+                this.IsBusy = false;
+                this.IsLoadingText = string.Empty;
+            }
         }
 
         /// <summary>
